@@ -1,6 +1,6 @@
-/* =====================================
-   CONFIGURAÇÃO GERAL
-===================================== */
+/* =========================================
+   CONFIGURAÇÕES GERAIS
+========================================= */
 
 * {
   box-sizing: border-box;
@@ -12,15 +12,15 @@ html {
 
 body {
   margin: 0;
-
-  background: #f7f4ed;
-
-  color: #34352f;
+  padding: 0;
 
   font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  background: #061426;
+  color: #ffffff;
 }
 
 button,
@@ -32,271 +32,340 @@ button {
   cursor: pointer;
 }
 
-
-/* =====================================
-   PÁGINA
-===================================== */
-
-.pagina {
-  min-height: 100vh;
-
-  overflow: hidden;
+button:disabled {
+  cursor: not-allowed;
 }
 
+/* =========================================
+   PÁGINA
+========================================= */
 
-/* =====================================
+.pagina {
+  width: 100%;
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  background: #061426;
+}
+
+/* =========================================
    HERO
-===================================== */
+========================================= */
 
 .hero {
-  min-height: 780px;
+  width: 100%;
+  max-width: 900px;
 
-  display: flex;
+  margin: 0 auto;
 
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
+  padding: 70px 25px 50px;
 
   text-align: center;
 
-  padding: 70px 20px;
-
-  background: #f7f4ed;
+  background: #061426;
 }
 
-
-/* =====================================
+/* =========================================
    FOTO DO CASAL
-===================================== */
+========================================= */
 
 .foto-wrapper {
-  width: 270px;
+  width: 215px;
+  height: 215px;
 
-  height: 340px;
+  margin: 0 auto 28px;
 
-  overflow: hidden;
+  padding: 5px;
 
-  border-radius: 140px 140px 25px 25px;
+  border-radius: 50%;
 
-  margin-bottom: 35px;
+  border: 1px solid #829bb7;
+
+  background: transparent;
 
   box-shadow:
-    0 20px 50px rgba(40, 40, 30, 0.14);
+    0 0 35px
+    rgba(110, 145, 180, 0.12);
+
+  overflow: hidden;
 }
 
 .foto-casal {
   width: 100%;
-
   height: 100%;
 
+  display: block;
+
   object-fit: cover;
+
+  border-radius: 50%;
 }
 
-
-/* =====================================
-   TÍTULO
-===================================== */
+/* =========================================
+   CORAÇÃO
+========================================= */
 
 .coracao-topo {
-  font-family: Georgia, serif;
+  margin-bottom: 8px;
 
-  font-size: 35px;
+  color: #a9bdd4;
 
-  margin-bottom: 5px;
+  font-size: 32px;
 
-  color: #45483e;
+  font-weight: 300;
 }
+
+/* =========================================
+   TÍTULO
+========================================= */
 
 .hero h1 {
   margin: 0;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+  color: #ffffff;
 
-  font-size: 52px;
+  font-size: clamp(
+    38px,
+    6vw,
+    60px
+  );
 
-  font-weight: normal;
+  font-weight: 400;
 
-  letter-spacing: -1px;
-
-  color: #292b26;
+  letter-spacing: 1px;
 }
 
 .subtitulo {
-  margin-top: 12px;
+  margin: 10px 0 22px;
 
-  font-size: 11px;
+  color: #a9bdd4;
 
-  letter-spacing: 6px;
+  font-size: 23px;
 
-  color: #77796f;
+  font-style: italic;
 }
 
-
-/* =====================================
-   DESCRIÇÃO
-===================================== */
-
 .descricao {
-  max-width: 500px;
+  max-width: 650px;
 
-  margin: 38px 0 0;
+  margin: 0 auto 12px;
 
-  font-family: Georgia, serif;
+  color: #c6d1df;
 
-  font-size: 20px;
+  font-size: 17px;
 
-  line-height: 1.6;
-
-  color: #45463f;
+  line-height: 1.7;
 }
 
 .descricao-secundaria {
-  max-width: 430px;
+  max-width: 600px;
 
-  margin: 10px 0 0;
+  margin: 0 auto;
 
-  font-size: 14px;
+  color: #91a5bc;
 
-  line-height: 1.7;
+  font-size: 15px;
 
-  color: #77786f;
+  line-height: 1.6;
 }
 
-
-/* =====================================
-   INFORMAÇÕES
-===================================== */
+/* =========================================
+   INFORMAÇÕES DO EVENTO
+   TRANSPARENTE / SEM QUADRO BRANCO
+========================================= */
 
 .informacoes-evento {
+  width: 100%;
+  max-width: 1050px;
+
+  margin: 0 auto;
+
+  padding: 35px 25px 60px;
+
   display: flex;
 
   align-items: center;
 
   justify-content: center;
 
-  gap: 35px;
+  gap: 45px;
 
-  margin-top: 45px;
+  background: transparent;
+
+  border: none;
+
+  box-shadow: none;
 }
 
 .info {
+  flex: 1;
+
+  min-width: 0;
+
   display: flex;
 
   flex-direction: column;
 
-  gap: 5px;
+  align-items: center;
 
-  min-width: 130px;
+  justify-content: center;
 
-  font-size: 12px;
-
-  color: #77786f;
-}
-
-.info strong {
-  font-size: 13px;
-
-  color: #41433c;
-}
-
-.info-icone {
-  font-size: 22px;
-
-  color: #73766a;
-
-  margin-bottom: 3px;
-}
-
-.separador {
-  width: 1px;
-
-  height: 55px;
-
-  background: #d6d2c6;
-}
-
-
-/* =====================================
-   CONFIRMAÇÃO
-===================================== */
-
-.confirmacao {
-  max-width: 760px;
-
-  margin: -20px auto 0;
-
-  position: relative;
-
-  z-index: 2;
-
-  background: #fbfaf6;
-
-  padding: 60px 80px;
-
-  border-radius: 8px;
-
-  box-shadow:
-    0 10px 40px rgba(50, 50, 40, 0.07);
+  gap: 10px;
 
   text-align: center;
 }
 
-.ornamento {
-  font-family: Georgia, serif;
+/* =========================================
+   ÍCONES DAS INFORMAÇÕES
+========================================= */
 
-  font-size: 25px;
+.info-icone {
+  width: 48px;
+  height: 48px;
 
-  color: #7b806e;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border: 1px solid #718ba7;
+
+  background: transparent;
+
+  color: #a9bdd4;
+
+  font-size: 22px;
+}
+
+/* =========================================
+   TEXTOS DAS INFORMAÇÕES
+========================================= */
+
+.info strong {
+  display: block;
 
   margin-bottom: 5px;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
 }
 
-.titulo-pequeno {
-  font-size: 10px;
+.info span {
+  display: block;
 
-  letter-spacing: 4px;
+  max-width: 270px;
 
-  color: #85877d;
-}
-
-.confirmacao h2,
-.lista-section h2 {
-  margin: 12px 0;
+  color: #aebdce;
 
   font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 32px;
-
-  font-weight: normal;
-
-  color: #30322c;
-}
-
-.texto-secao {
-  color: #77786f;
+    Arial,
+    Helvetica,
+    sans-serif;
 
   font-size: 14px;
 
   line-height: 1.6;
 }
 
+/* =========================================
+   SEPARADORES
+========================================= */
 
-/* =====================================
+.separador {
+  width: 1px;
+
+  height: 75px;
+
+  background: #314963;
+
+  flex-shrink: 0;
+}
+
+/* =========================================
+   CONFIRMAÇÃO
+========================================= */
+
+.confirmacao {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 25px 25px 75px;
+
+  text-align: center;
+
+  background: #061426;
+}
+
+/* =========================================
+   ORNAMENTO
+========================================= */
+
+.ornamento {
+  margin-bottom: 12px;
+
+  color: #829bb7;
+
+  font-size: 18px;
+
+  letter-spacing: 2px;
+}
+
+.titulo-pequeno {
+  margin: 0 0 8px;
+
+  color: #9fb5cc;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+/* =========================================
+   TÍTULOS
+========================================= */
+
+.confirmacao h2,
+.lista-cabecalho h2,
+.final h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(
+    28px,
+    5vw,
+    39px
+  );
+
+  font-weight: 400;
+}
+
+/* =========================================
    CAMPOS
-===================================== */
+========================================= */
 
 .campo {
-  text-align: left;
+  margin-top: 30px;
 
-  margin-top: 28px;
+  text-align: left;
 }
 
 .campo label {
@@ -304,48 +373,130 @@ button {
 
   margin-bottom: 9px;
 
-  font-size: 12px;
+  color: #c5d0dc;
 
-  font-weight: bold;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-  color: #53554c;
+  font-size: 13px;
+
+  font-weight: 600;
 }
 
 .campo input {
   width: 100%;
 
-  padding: 15px 16px;
+  padding: 16px;
 
-  border: 1px solid #dedbd2;
+  border: 1px solid #344b65;
 
   border-radius: 7px;
 
   outline: none;
 
-  background: #fff;
+  background: #0b2038;
 
-  color: #333;
+  color: #ffffff;
 
-  font-size: 14px;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.campo input::placeholder {
+  color: #72869c;
 }
 
 .campo input:focus {
-  border-color: #858b79;
+  border-color: #829bb7;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(130, 155, 183, 0.1);
 }
 
-
-/* =====================================
-   BOTÕES DE PRESENÇA
-===================================== */
+/* =========================================
+   OPÇÕES DE PRESENÇA
+========================================= */
 
 .opcoes {
   display: flex;
 
-  gap: 12px;
+  flex-direction: column;
+
+  gap: 10px;
 }
 
 .opcao {
-  flex: 1;
+  width: 100%;
+
+  padding: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px solid #344b65;
+
+  border-radius: 7px;
+
+  background: #0b2038;
+
+  color: #b9c7d6;
+
+  text-align: left;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.opcao:hover {
+  border-color: #718ba7;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.12);
+}
+
+.opcao.ativa {
+  border-color: #829bb7;
+
+  background: #102945;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================
+   RADIO
+========================================= */
+
+.radio {
+  width: 22px;
+  height: 22px;
 
   display: flex;
 
@@ -353,262 +504,103 @@ button {
 
   justify-content: center;
 
-  gap: 9px;
+  flex-shrink: 0;
 
-  padding: 14px;
+  border: 1px solid #71869d;
 
-  border: 1px solid #ddd9d0;
+  border-radius: 50%;
 
-  border-radius: 7px;
-
-  background: #fff;
-
-  color: #55574f;
+  color: #ffffff;
 
   font-size: 13px;
-
-  transition: 0.2s;
 }
 
-.opcao:hover {
-  border-color: #9da390;
+.opcao.ativa .radio {
+  background: #ffffff;
+
+  border-color: #ffffff;
+
+  color: #061426;
 }
 
-.opcao.ativa {
-  border-color: #65705c;
-
-  background: #eef0e9;
-
-  color: #42483d;
-}
-
-.radio {
-  font-size: 16px;
-}
-
-
-/* =====================================
-   BOTÃO PRINCIPAL
-===================================== */
-
-.botao {
-  width: 220px;
-
-  margin-top: 35px;
-
-  padding: 15px 20px;
-
-  border: none;
-
-  border-radius: 7px;
-
-  background: #65705c;
-
-  color: white;
-
-  font-size: 13px;
-
-  transition: 0.2s;
-}
-
-.botao:hover {
-  background: #555f4e;
-}
-
-.botao span {
-  margin-left: 15px;
-
-  font-size: 16px;
-}
-
-
-/* =====================================
+/* =========================================
    LISTA DE PRESENTES
-===================================== */
+========================================= */
 
 .lista-section {
-  max-width: 1000px;
+  width: 100%;
 
-  margin: auto;
+  padding: 80px 25px 90px;
 
-  padding: 100px 25px;
+  background: #0b2038;
+}
+
+.lista-cabecalho {
+  width: 100%;
+  max-width: 750px;
+
+  margin: 0 auto 45px;
 
   text-align: center;
 }
 
-.lista-cabecalho p {
-  color: #77786f;
+.lista-cabecalho > p:last-child {
+  max-width: 620px;
+
+  margin: 15px auto 0;
+
+  color: #9eafc2;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
   font-size: 14px;
+
+  line-height: 1.7;
 }
 
+.texto-secao {
+  text-align: center;
 
-/* =====================================
-   PROGRESSO
-===================================== */
+  color: #9eafc2;
 
-.progresso {
-  max-width: 650px;
-
-  margin: 40px auto;
-
-  text-align: left;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 }
 
-.progresso-texto {
-  margin-bottom: 8px;
-
-  font-size: 11px;
-
-  color: #77786f;
-}
-
-.barra {
-  width: 100%;
-
-  height: 5px;
-
-  background: #e6e3da;
-
-  border-radius: 20px;
-
-  overflow: hidden;
-}
-
-.barra-preenchida {
-  width: 0%;
-
-  height: 100%;
-
-  background: #65705c;
-}
-
-
-/* =====================================
-   GRID
-===================================== */
+/* =========================================
+   GRID DOS PRESENTES
+========================================= */
 
 .grid-presentes {
+  width: 100%;
+  max-width: 1080px;
+
+  margin: 0 auto;
+
   display: grid;
 
   grid-template-columns:
-    repeat(3, 1fr);
+    repeat(
+      auto-fit,
+      minmax(220px, 1fr)
+    );
 
-  gap: 15px;
-
-  margin-top: 35px;
+  gap: 16px;
 }
 
-
-/* =====================================
-   CARD PRESENTE
-===================================== */
+/* =========================================
+   CARD DO PRESENTE
+========================================= */
 
 .card-presente {
-  padding: 28px 20px;
+  min-height: 185px;
 
-  background: #fbfaf6;
-
-  border: 1px solid #e3e0d7;
-
-  border-radius: 9px;
-
-  text-align: left;
-
-  transition: 0.2s;
-}
-
-.card-presente:hover {
-  transform: translateY(-2px);
-
-  border-color: #a7ad9c;
-
-  box-shadow:
-    0 8px 25px rgba(50, 50, 40, 0.06);
-}
-
-.card-presente.selecionado {
-  border-color: #65705c;
-
-  background: #f0f2eb;
-}
-
-.icone-presente {
-  font-size: 30px;
-
-  margin-bottom: 18px;
-
-  filter: grayscale(1);
-
-  opacity: 0.7;
-}
-
-.card-presente h3 {
-  margin: 0 0 15px;
-
-  font-family: Georgia, serif;
-
-  font-size: 17px;
-
-  font-weight: normal;
-
-  color: #3b3d36;
-}
-
-.status {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 6px;
-
-  padding: 6px 10px;
-
-  border-radius: 20px;
-
-  background: #edf0e8;
-
-  color: #69715f;
-
-  font-size: 10px;
-}
-
-.bolinha {
-  font-size: 12px;
-}
-
-
-/* =====================================
-   BOTÃO DA LISTA
-===================================== */
-
-.botao-presentes {
-  margin-top: 35px;
-
-  padding: 15px 25px;
-
-  border: none;
-
-  border-radius: 7px;
-
-  background: #65705c;
-
-  color: white;
-
-  font-size: 13px;
-}
-
-.botao-presentes span {
-  margin-left: 15px;
-}
-
-
-/* =====================================
-   FINAL
-===================================== */
-
-.final {
-  min-height: 500px;
+  padding: 25px 20px;
 
   display: flex;
 
@@ -620,153 +612,538 @@ button {
 
   text-align: center;
 
-  padding: 70px 20px;
+  border: 1px solid #29435f;
 
-  background: #eeeae0;
+  border-radius: 9px;
+
+  background: #102943;
+
+  color: #ffffff;
+
+  transition:
+    transform 0.2s,
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
 }
 
-.foto-final {
-  width: 130px;
+.card-presente:not(:disabled):hover {
+  transform: translateY(-3px);
 
-  height: 130px;
+  border-color: #7891ad;
 
-  overflow: hidden;
+  background: #142f4d;
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================
+   CARD SELECIONADO
+========================================= */
+
+.card-presente.selecionado {
+  border: 1px solid #a9bdd4;
+
+  background: #183653;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   CARD ESGOTADO
+========================================= */
+
+.card-presente.reservado {
+  opacity: 0.5;
+
+  background: #0a1b2e;
+}
+
+/* =========================================
+   ÍCONE DO PRESENTE
+========================================= */
+
+.icone-presente {
+  width: 44px;
+  height: 44px;
+
+  margin-bottom: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   border-radius: 50%;
 
-  margin-bottom: 25px;
+  border: 1px solid #718ba7;
+
+  background: transparent;
+
+  color: #a9bdd4;
+
+  font-size: 20px;
+}
+
+/* =========================================
+   NOME DO PRESENTE
+========================================= */
+
+.card-presente h3 {
+  margin: 0 0 13px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+
+  font-weight: 400;
+
+  line-height: 1.4;
+}
+
+/* =========================================
+   STATUS DO ESTOQUE
+========================================= */
+
+.status {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  color: #91a5bc;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 12px;
+}
+
+.bolinha {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #91aac3;
+}
+
+.bolinha.esgotado {
+  background: #6d7784;
+}
+
+/* =========================================
+   CONFIRMAÇÃO FINAL
+========================================= */
+
+.confirmacao-final {
+  width: 100%;
+  max-width: 600px;
+
+  margin: 40px auto 0;
+
+  text-align: center;
+}
+
+.presente-escolhido-texto {
+  margin: 0 0 12px;
+
+  color: #aebdce;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 14px;
+}
+
+.presente-escolhido-texto strong {
+  color: #ffffff;
+}
+
+.aviso-presente {
+  margin: 0 0 20px;
+
+  color: #7f92a7;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+/* =========================================
+   BOTÃO CONFIRMAR
+========================================= */
+
+.botao-presentes {
+  width: 100%;
+
+  padding: 17px 25px;
+
+  border: 1px solid #829bb7;
+
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #061426;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    box-shadow 0.2s,
+    opacity 0.2s;
+}
+
+.botao-presentes:not(:disabled):hover {
+  transform: translateY(-1px);
+
+  background: #dce6f0;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.25);
+}
+
+.botao-presentes:disabled {
+  opacity: 0.35;
+}
+
+/* =========================================
+   SEÇÃO FINAL
+========================================= */
+
+.final {
+  width: 100%;
+
+  padding: 90px 25px;
+
+  text-align: center;
+
+  background: #061426;
+
+  color: #ffffff;
+
+  border-top: 1px solid #1c344d;
+}
+
+/* =========================================
+   FOTO FINAL
+========================================= */
+
+.foto-final {
+  width: 155px;
+  height: 155px;
+
+  margin: 0 auto 25px;
+
+  padding: 5px;
+
+  border-radius: 50%;
+
+  border: 1px solid #718ba7;
+
+  background: transparent;
+
+  overflow: hidden;
 }
 
 .foto-final img {
   width: 100%;
-
   height: 100%;
 
+  display: block;
+
   object-fit: cover;
+
+  border-radius: 50%;
 }
+
+/* =========================================
+   CORAÇÃO FINAL
+========================================= */
 
 .coracao-final {
-  font-size: 28px;
+  margin-bottom: 10px;
 
-  color: #69715f;
+  color: #9fb5cc;
+
+  font-size: 30px;
 }
 
+/* =========================================
+   TEXTO FINAL
+========================================= */
+
 .final h2 {
-  margin: 10px 0 0;
+  color: #ffffff;
 
-  font-family: Georgia, serif;
-
-  font-size: 35px;
-
-  font-weight: normal;
+  font-weight: 400;
 }
 
 .final p {
-  margin: 5px 0 25px;
+  max-width: 500px;
 
-  font-family: Georgia, serif;
+  margin: 15px auto;
 
-  font-size: 18px;
+  color: #aebdce;
 
-  font-style: italic;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-  color: #707269;
+  font-size: 14px;
+
+  line-height: 1.7;
 }
 
 .final span {
-  font-size: 11px;
+  color: #9fb5cc;
 
-  letter-spacing: 3px;
+  font-size: 15px;
 
-  color: #73766d;
+  font-style: italic;
 }
 
+/* =========================================
+   TABLET
+========================================= */
 
-/* =====================================
-   CELULAR
-===================================== */
-
-@media (max-width: 700px) {
+@media (max-width: 768px) {
 
   .hero {
-    min-height: auto;
-
-    padding: 45px 20px 70px;
+    padding:
+      50px
+      20px
+      35px;
   }
-
 
   .foto-wrapper {
-    width: 210px;
-
-    height: 270px;
+    width: 180px;
+    height: 180px;
   }
-
-
-  .hero h1 {
-    font-size: 38px;
-  }
-
-
-  .subtitulo {
-    font-size: 9px;
-
-    letter-spacing: 4px;
-  }
-
-
-  .descricao {
-    font-size: 17px;
-  }
-
 
   .informacoes-evento {
+    width: 100%;
+
+    padding:
+      25px
+      20px
+      55px;
+
     flex-direction: column;
 
-    gap: 20px;
-
-    margin-top: 35px;
+    gap: 25px;
   }
 
+  .info {
+    width: 100%;
+
+    flex: none;
+  }
+
+  .info span {
+    max-width: 300px;
+  }
 
   .separador {
-    width: 60px;
+    width: 70px;
 
     height: 1px;
   }
 
-
-  .confirmacao {
-    width: calc(100% - 25px);
-
-    padding: 40px 25px;
+  .lista-section {
+    padding:
+      60px
+      18px
+      70px;
   }
-
-
-  .confirmacao h2,
-  .lista-section h2 {
-    font-size: 27px;
-  }
-
-
-  .opcoes {
-    flex-direction: column;
-  }
-
 
   .grid-presentes {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
 
     gap: 12px;
   }
 
+  .card-presente {
+    min-height: 170px;
+
+    padding:
+      20px
+      12px;
+  }
+}
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 500px) {
+
+  .hero {
+    padding:
+      40px
+      18px
+      35px;
+  }
+
+  .foto-wrapper {
+    width: 155px;
+    height: 155px;
+
+    margin-bottom: 20px;
+  }
+
+  .coracao-topo {
+    font-size: 28px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .subtitulo {
+    font-size: 20px;
+  }
+
+  .descricao {
+    font-size: 15px;
+  }
+
+  .descricao-secundaria {
+    font-size: 13px;
+  }
+
+  .informacoes-evento {
+    width: 100%;
+
+    padding:
+      20px
+      15px
+      50px;
+
+    margin: 0 auto;
+  }
+
+  .info strong {
+    font-size: 13px;
+  }
+
+  .info span {
+    max-width: 280px;
+
+    font-size: 13px;
+  }
+
+  .confirmacao {
+    padding:
+      20px
+      18px
+      60px;
+  }
+
+  .confirmacao h2,
+  .lista-cabecalho h2,
+  .final h2 {
+    font-size: 28px;
+  }
 
   .lista-section {
-    padding: 70px 20px;
+    padding:
+      60px
+      12px
+      70px;
   }
 
+  .lista-cabecalho {
+    padding:
+      0
+      8px;
+
+    margin-bottom: 30px;
+  }
+
+  .lista-cabecalho > p:last-child {
+    font-size: 13px;
+  }
+
+  .grid-presentes {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
 
   .card-presente {
-    padding: 22px;
+    min-height: 155px;
+
+    padding:
+      22px
+      15px;
   }
 
+  .card-presente h3 {
+    font-size: 16px;
+  }
+
+  .final {
+    padding:
+      70px
+      18px;
+  }
+
+  .foto-final {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* =========================================
+   CELULARES MUITO PEQUENOS
+========================================= */
+
+@media (max-width: 360px) {
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .grid-presentes {
+    grid-template-columns: 1fr;
+  }
+
+  .informacoes-evento {
+    width: 100%;
+  }
 }

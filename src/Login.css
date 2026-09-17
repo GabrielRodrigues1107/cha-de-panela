@@ -1,0 +1,192 @@
+.pagina-login {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #e8edf2 0%,
+      #f4f6f8 100%
+    );
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+
+  padding: 45px 40px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 15px 45px rgba(
+      16,
+      42,
+      67,
+      0.10
+    );
+}
+
+.login-coracao {
+  color: #183b5c;
+
+  font-size: 30px;
+
+  margin-bottom: 12px;
+}
+
+.login-pequeno {
+  margin: 0 0 10px;
+
+  color: #294968;
+
+  font-size: 12px;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.login-card h1 {
+  margin: 0;
+
+  color: #102a43;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 34px;
+
+  font-weight: normal;
+}
+
+.login-subtitulo {
+  margin: 10px 0 35px;
+
+  color: #718096;
+
+  font-size: 15px;
+}
+
+.login-campo {
+  margin-bottom: 20px;
+
+  text-align: left;
+}
+
+.login-campo label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #294968;
+
+  font-size: 14px;
+}
+
+.login-campo input {
+  width: 100%;
+
+  padding: 15px;
+
+  border: 1px solid #cbd5df;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #fdfdfd;
+
+  color: #102a43;
+
+  font-size: 15px;
+}
+
+.login-campo input:focus {
+  border-color: #183b5c;
+
+  box-shadow:
+    0 0 0 3px rgba(
+      24,
+      59,
+      92,
+      0.08
+    );
+}
+
+.login-erro {
+  margin: 5px 0 18px;
+
+  color: #9b2c2c;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 13px;
+}
+
+.login-botao {
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 16px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #102a43;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  transition: 0.2s ease;
+}
+
+.login-botao:hover:not(:disabled) {
+  background: #183b5c;
+
+  transform: translateY(-2px);
+}
+
+.login-botao:disabled {
+  background: #aeb8c2;
+
+  cursor: not-allowed;
+}
+
+.login-botao span {
+  font-size: 19px;
+}
+
+@media (max-width: 500px) {
+
+  .login-card {
+    padding: 35px 25px;
+  }
+
+  .login-card h1 {
+    font-size: 29px;
+  }
+}

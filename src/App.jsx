@@ -1,497 +1,611 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "./supabase";
+import fotoCasal from "./assets/foto-casal.jpg";
 import "./App.css";
 
-import fotoCasal from "./assets/foto-casal.jpg";
-
 function App() {
-
-  // Nome digitado pelo convidado
   const [nome, setNome] = useState("");
-
-  // Resposta da presença
   const [presenca, setPresenca] = useState("");
+  const [presenteSelecionado, setPresenteSelecionado] =
+    useState(null);
 
-  // Presente selecionado
-  const [presenteSelecionado, setPresenteSelecionado] = useState("");
+  const [presentes, setPresentes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [salvando, setSalvando] = useState(false);
 
+  useEffect(() => {
+    carregarPresentes();
+  }, []);
 
-  // Lista de presentes
-  const presentes = [
-    {
-      nome: "Jogo de copos",
-      icone: "🥂"
-    },
+  // ==============================
+  // CARREGAR PRESENTES
+  // ==============================
 
-    {
-      nome: "Liquidificador",
-      icone: "♨"
-    },
+  async function carregarPresentes() {
+    setCarregando(true);
 
-    {
-      nome: "Frigideira",
-      icone: "🍳"
-    },
+    const { data, error } = await supabase
+      .from("gifts")
+      .select("*")
+      .order("id", {
+        ascending: true,
+      });
 
-    {
-      nome: "Jogo de panelas",
-      icone: "🍲"
-    },
+    if (error) {
+      console.error(
+        "Erro ao carregar presentes:",
+        error
+      );
 
-    {
-      nome: "Panela de pressão",
-      icone: "♨"
-    },
-
-    {
-      nome: "Jogo de pratos",
-      icone: "◯"
-    },
-
-    {
-      nome: "Talheres",
-      icone: "🍴"
-    },
-
-    {
-      nome: "Escorredor de louça",
-      icone: "▦"
-    },
-
-    {
-      nome: "Potes de plástico",
-      icone: "▣"
+      alert(
+        "Não foi possível carregar a lista de presentes."
+      );
+    } else {
+      setPresentes(data || []);
     }
-  ];
 
+    setCarregando(false);
+  }
 
-  // Função chamada quando clicar em continuar
-  function continuar() {
+  // ==============================
+  // ESCOLHER PRESENTE
+  // ==============================
 
-    if (nome.trim() === "") {
+  function escolherPresente(presente) {
+    if (salvando) {
+      return;
+    }
+
+    if (!nome.trim()) {
+      alert(
+        "Digite seu nome antes de escolher um presente."
+      );
+      return;
+    }
+
+    if (presenca !== "sim") {
+      alert(
+        "Primeiro confirme que você irá comparecer."
+      );
+      return;
+    }
+
+    if (presente.stock <= 0) {
+      alert(
+        "Este presente está esgotado."
+      );
+      return;
+    }
+
+    setPresenteSelecionado(
+      presente.id
+    );
+  }
+
+  // ==============================
+  // CONFIRMAR PRESENÇA + PRESENTE
+  // ==============================
+
+  async function confirmarTudo() {
+    if (salvando) {
+      return;
+    }
+
+    if (!nome.trim()) {
       alert("Digite seu nome.");
       return;
     }
 
-    if (presenca === "") {
-      alert("Informe se você estará presente.");
-      return;
-    }
-
-    if (presenca === "nao") {
-
+    if (presenca !== "sim") {
       alert(
-        `Obrigado pela resposta, ${nome}! ❤️`
+        "Confirme que você irá comparecer."
       );
-
       return;
     }
 
-    if (presenteSelecionado === "") {
-
+    if (!presenteSelecionado) {
       alert(
-        "Escolha um presente da nossa lista."
+        "Escolha um presente."
       );
-
       return;
     }
 
-    alert(
-      `Obrigado, ${nome}! Sua presença foi registrada. ❤️`
+    const presente = presentes.find(
+      (item) =>
+        item.id === presenteSelecionado
     );
+
+    if (!presente) {
+      alert(
+        "Presente não encontrado."
+      );
+      return;
+    }
+
+    if (presente.stock <= 0) {
+      alert(
+        "Esse presente acabou. Escolha outro."
+      );
+
+      setPresenteSelecionado(null);
+
+      await carregarPresentes();
+
+      return;
+    }
+
+    setSalvando(true);
+
+    try {
+      const { error } =
+        await supabase.rpc(
+          "reservar_presente",
+          {
+            p_gift_id:
+              presenteSelecionado,
+
+            p_guest_name:
+              nome.trim(),
+          }
+        );
+
+      if (error) {
+        console.error(
+          "Erro ao confirmar presença:",
+          error
+        );
+
+        if (
+          error.message
+            ?.toLowerCase()
+            .includes("esgotado")
+        ) {
+          alert(
+            "Esse presente acabou enquanto você estava escolhendo. Por favor, escolha outro."
+          );
+        } else {
+          alert(
+            "Não foi possível confirmar sua presença. Tente novamente."
+          );
+        }
+
+        await carregarPresentes();
+
+        return;
+      }
+
+      alert(
+        `Presença confirmada com sucesso!\n\nObrigado, ${nome.trim()}! ❤️`
+      );
+
+      setNome("");
+      setPresenca("");
+      setPresenteSelecionado(null);
+
+      await carregarPresentes();
+    } catch (error) {
+      console.error(
+        "Erro inesperado:",
+        error
+      );
+
+      alert(
+        "Ocorreu um erro ao confirmar sua presença. Tente novamente."
+      );
+
+      await carregarPresentes();
+    } finally {
+      setSalvando(false);
+    }
   }
 
+  // ==============================
+  // TEXTO DO ESTOQUE
+  // ==============================
+
+  function quantidadeTexto(presente) {
+    if (presente.stock <= 0) {
+      return "ESGOTADO";
+    }
+
+    if (presente.stock === 1) {
+      return "1 unidade disponível";
+    }
+
+    return `${presente.stock} unidades disponíveis`;
+  }
 
   return (
+    <main className="pagina">
 
-    <div className="pagina">
-
-
-      {/* =====================================
+      {/* ==============================
           HERO
-      ====================================== */}
+      ============================== */}
 
       <section className="hero">
 
-
-        {/* FOTO */}
-
         <div className="foto-wrapper">
-
           <img
             src={fotoCasal}
             alt="Gabriel e Karoline"
             className="foto-casal"
           />
-
         </div>
-
-
-        {/* PEQUENO CORAÇÃO */}
 
         <div className="coracao-topo">
           ♡
         </div>
 
-
-        {/* NOMES */}
-
         <h1>
           Gabriel & Karoline
         </h1>
 
-
-        {/* SUBTÍTULO */}
-
-        <div className="subtitulo">
-          CHÁ DE PANELA
-        </div>
-
-
-        {/* DESCRIÇÃO */}
+        <p className="subtitulo">
+          Chá de Panela
+        </p>
 
         <p className="descricao">
-
-          Estamos muito felizes em compartilhar
-          esse momento especial com você.
-
+          Estamos preparando nosso cantinho com muito carinho
+          e queremos comemorar esse momento especial com você.
         </p>
-
 
         <p className="descricao-secundaria">
-
-          Confirme sua presença e escolha um presente
-          da nossa lista. ♡
-
+          Escolha um presente da nossa lista e confirme sua presença.
         </p>
 
+      </section>
 
-        {/* INFORMAÇÕES DO EVENTO */}
+      {/* ==============================
+          INFORMAÇÕES DO EVENTO
+      ============================== */}
 
-        <div className="informacoes-evento">
+      <section className="informacoes-evento">
 
+        <div className="info">
 
-          <div className="info">
+          <div className="info-icone">
+            ♡
+          </div>
 
-            <span className="info-icone">
-              ♡
-            </span>
-
+          <div>
             <strong>
-              14 de Novembro
+              Data
             </strong>
 
             <span>
-              de 2026
+              21 de novembro de 2026
             </span>
-
           </div>
 
+        </div>
 
-          <div className="separador"></div>
+        <div className="separador"></div>
 
+        <div className="info">
 
-          <div className="info">
+          <div className="info-icone">
+            ◷
+          </div>
 
-            <span className="info-icone">
-              ◷
-            </span>
-
+          <div>
             <strong>
-              16h00
+              Horário
             </strong>
 
             <span>
-              horas
+              16h
             </span>
-
           </div>
 
+        </div>
 
-          <div className="separador"></div>
+        <div className="separador"></div>
 
+        <div className="info">
 
-          <div className="info">
+          <div className="info-icone">
+            ⌖
+          </div>
 
-            <span className="info-icone">
-              ♧
-            </span>
-
+          <div>
             <strong>
-              Rua Lahud Tannuri
+              Local
             </strong>
 
             <span>
-              339
+              Rua Antônio Alves da Silva,
+              em frente à ADG, Parada Modelo
             </span>
-
           </div>
-
 
         </div>
 
       </section>
 
-
-
-      {/* =====================================
+      {/* ==============================
           CONFIRMAÇÃO
-      ====================================== */}
+      ============================== */}
 
       <section className="confirmacao">
 
-
         <div className="ornamento">
-          ♡
+          ─── ♡ ───
         </div>
 
-
-        <span className="titulo-pequeno">
-          RSVP
-        </span>
-
-
-        <h2>
-          Confirme sua presença
-        </h2>
-
-
-        <p className="texto-secao">
-
-          Digite seu nome e informe se você
-          estará conosco nesse dia.
-
+        <p className="titulo-pequeno">
+          SUA PRESENÇA
         </p>
 
+        <h2>
+          Vamos comemorar juntos?
+        </h2>
 
         {/* NOME */}
 
         <div className="campo">
 
-          <label>
-            Seu nome completo
+          <label htmlFor="nome">
+            Seu nome
           </label>
 
           <input
+            id="nome"
             type="text"
             placeholder="Digite seu nome"
             value={nome}
-            onChange={(evento) =>
-              setNome(evento.target.value)
+            onChange={(event) =>
+              setNome(
+                event.target.value
+              )
             }
+            disabled={salvando}
           />
 
         </div>
-
 
         {/* PRESENÇA */}
 
         <div className="campo">
 
           <label>
-            Você estará presente?
+            Você irá comparecer?
           </label>
-
 
           <div className="opcoes">
 
-
             <button
-              className={
+              type="button"
+              className={`opcao ${
                 presenca === "sim"
-                  ? "opcao ativa"
-                  : "opcao"
-              }
-
+                  ? "ativa"
+                  : ""
+              }`}
               onClick={() =>
                 setPresenca("sim")
               }
+              disabled={salvando}
             >
 
               <span className="radio">
-                {presenca === "sim" ? "●" : "○"}
+                {presenca === "sim"
+                  ? "✓"
+                  : ""}
               </span>
 
-              Sim, vou!
+              Sim, vou comparecer
 
             </button>
-
 
             <button
-              className={
+              type="button"
+              className={`opcao ${
                 presenca === "nao"
-                  ? "opcao ativa"
-                  : "opcao"
-              }
-
-              onClick={() =>
-                setPresenca("nao")
-              }
+                  ? "ativa"
+                  : ""
+              }`}
+              onClick={() => {
+                setPresenca("nao");
+                setPresenteSelecionado(
+                  null
+                );
+              }}
+              disabled={salvando}
             >
 
               <span className="radio">
-                {presenca === "nao" ? "●" : "○"}
+                {presenca === "nao"
+                  ? "✓"
+                  : ""}
               </span>
 
-              Não poderei ir
+              Não poderei comparecer
 
             </button>
-
 
           </div>
 
         </div>
 
-
-        {/* CONTINUAR */}
-
-        <button
-          className="botao"
-          onClick={continuar}
-        >
-
-          Continuar
-
-          <span>
-            →
-          </span>
-
-        </button>
-
-
       </section>
 
-
-
-      {/* =====================================
+      {/* ==============================
           LISTA DE PRESENTES
-      ====================================== */}
+      ============================== */}
 
       <section className="lista-section">
 
-
         <div className="lista-cabecalho">
 
-          <span className="titulo-pequeno">
-            COM CARINHO
-          </span>
-
+          <p className="titulo-pequeno">
+            LISTA DE PRESENTES
+          </p>
 
           <h2>
-            Escolha um presente
+            Um carinho para nosso novo lar
           </h2>
 
-
           <p>
-            Se quiser nos presentear, escolha
-            um item da nossa lista. ♡
+            Escolha um presente que você gostaria
+            de nos presentear. Os itens com mais
+            de uma unidade podem ser escolhidos
+            por mais de uma pessoa.
           </p>
 
         </div>
 
+        {/* CARREGANDO */}
 
-        {/* PROGRESSO */}
+        {carregando ? (
 
-        <div className="progresso">
+          <p className="texto-secao">
+            Carregando presentes...
+          </p>
 
-          <div className="progresso-texto">
+        ) : presentes.length === 0 ? (
 
-            <span>
-              0 de {presentes.length} presentes escolhidos
-            </span>
+          <p className="texto-secao">
+            Nenhum presente disponível no momento.
+          </p>
+
+        ) : (
+
+          <div className="grid-presentes">
+
+            {presentes.map(
+              (presente) => {
+
+                const esgotado =
+                  presente.stock <= 0;
+
+                const selecionado =
+                  presenteSelecionado ===
+                  presente.id;
+
+                return (
+
+                  <button
+                    key={presente.id}
+                    type="button"
+                    className={`card-presente ${
+                      selecionado
+                        ? "selecionado"
+                        : ""
+                    } ${
+                      esgotado
+                        ? "reservado"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      escolherPresente(
+                        presente
+                      )
+                    }
+                    disabled={
+                      esgotado ||
+                      salvando
+                    }
+                  >
+
+                    <div className="icone-presente">
+
+                      {selecionado
+                        ? "✓"
+                        : esgotado
+                        ? "×"
+                        : "♡"}
+
+                    </div>
+
+                    <h3>
+                      {presente.name}
+                    </h3>
+
+                    <div className="status">
+
+                      <span
+                        className={`bolinha ${
+                          esgotado
+                            ? "esgotado"
+                            : ""
+                        }`}
+                      ></span>
+
+                      {quantidadeTexto(
+                        presente
+                      )}
+
+                    </div>
+
+                  </button>
+
+                );
+              }
+            )}
 
           </div>
 
+        )}
 
-          <div className="barra">
+        {/* ==============================
+            CONFIRMAÇÃO FINAL
+        ============================== */}
 
-            <div className="barra-preenchida"></div>
+        <div className="confirmacao-final">
 
-          </div>
+          {presenteSelecionado && (
 
-        </div>
+            <p className="presente-escolhido-texto">
 
+              Presente escolhido:{" "}
 
-        {/* CARDS */}
+              <strong>
 
-        <div className="grid-presentes">
+                {
+                  presentes.find(
+                    (presente) =>
+                      presente.id ===
+                      presenteSelecionado
+                  )?.name
+                }
 
+              </strong>
 
-          {presentes.map((presente, index) => (
+            </p>
 
-            <div
-              className={
-                presenteSelecionado === presente.nome
-                  ? "card-presente selecionado"
-                  : "card-presente"
-              }
+          )}
 
-              key={index}
+          <p className="aviso-presente">
+            O presente só será reservado após
+            você clicar em "Confirmar presença".
+          </p>
 
-              onClick={() =>
-                setPresenteSelecionado(presente.nome)
-              }
-            >
+          <button
+            type="button"
+            className="botao-presentes"
+            onClick={confirmarTudo}
+            disabled={
+              salvando ||
+              !nome.trim() ||
+              presenca !== "sim" ||
+              !presenteSelecionado
+            }
+          >
 
+            {salvando
+              ? "Confirmando..."
+              : "Confirmar presença"}
 
-              <div className="icone-presente">
-
-                {presente.icone}
-
-              </div>
-
-
-              <h3>
-                {presente.nome}
-              </h3>
-
-
-              <div className="status">
-
-                <span className="bolinha">
-                  {presenteSelecionado === presente.nome
-                    ? "✓"
-                    : "○"}
-                </span>
-
-                Disponível
-
-              </div>
-
-
-            </div>
-
-          ))}
-
+          </button>
 
         </div>
-
-
-        {/* BOTÃO */}
-
-        <button
-          className="botao-presentes"
-          onClick={continuar}
-        >
-
-          Confirmar presença e presente
-
-          <span>
-            →
-          </span>
-
-        </button>
-
 
       </section>
 
-
-
-      {/* =====================================
+      {/* ==============================
           FINAL
-      ====================================== */}
+      ============================== */}
 
       <section className="final">
-
 
         <div className="foto-final">
 
@@ -502,32 +616,26 @@ function App() {
 
         </div>
 
-
         <div className="coracao-final">
           ♡
         </div>
 
-
         <h2>
-          Juntos na cozinha
+          Esperamos você!
         </h2>
 
-
         <p>
-          e em todos os momentos!
+          Será muito especial ter você conosco
+          nesse momento.
         </p>
 
-
         <span>
-          Gabriel & Karoline
+          Com carinho, Gabriel & Karoline
         </span>
-
 
       </section>
 
-
-    </div>
-
+    </main>
   );
 }
 
