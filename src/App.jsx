@@ -17,10 +17,6 @@ function App() {
     carregarPresentes();
   }, []);
 
-  // ==============================
-  // CARREGAR PRESENTES
-  // ==============================
-
   async function carregarPresentes() {
     setCarregando(true);
 
@@ -46,10 +42,6 @@ function App() {
 
     setCarregando(false);
   }
-
-  // ==============================
-  // ESCOLHER PRESENTE
-  // ==============================
 
   function escolherPresente(presente) {
     if (salvando) {
@@ -81,10 +73,6 @@ function App() {
       presente.id
     );
   }
-
-  // ==============================
-  // CONFIRMAR PRESENÇA + PRESENTE
-  // ==============================
 
   async function confirmarTudo() {
     if (salvando) {
@@ -199,10 +187,6 @@ function App() {
     }
   }
 
-  // ==============================
-  // TEXTO DO ESTOQUE
-  // ==============================
-
   function quantidadeTexto(presente) {
     if (presente.stock <= 0) {
       return "ESGOTADO";
@@ -218,9 +202,9 @@ function App() {
   return (
     <main className="pagina">
 
-      {/* ==============================
-          HERO
-      ============================== */}
+      {/* =========================
+          CABEÇALHO
+      ========================= */}
 
       <section className="hero">
 
@@ -255,9 +239,9 @@ function App() {
 
       </section>
 
-      {/* ==============================
+      {/* =========================
           INFORMAÇÕES DO EVENTO
-      ============================== */}
+      ========================= */}
 
       <section className="informacoes-evento">
 
@@ -322,9 +306,9 @@ function App() {
 
       </section>
 
-      {/* ==============================
-          CONFIRMAÇÃO
-      ============================== */}
+      {/* =========================
+          CONFIRMAÇÃO DE PRESENÇA
+      ========================= */}
 
       <section className="confirmacao">
 
@@ -339,8 +323,6 @@ function App() {
         <h2>
           Vamos comemorar juntos?
         </h2>
-
-        {/* NOME */}
 
         <div className="campo">
 
@@ -362,8 +344,6 @@ function App() {
           />
 
         </div>
-
-        {/* PRESENÇA */}
 
         <div className="campo">
 
@@ -428,9 +408,9 @@ function App() {
 
       </section>
 
-      {/* ==============================
+      {/* =========================
           LISTA DE PRESENTES
-      ============================== */}
+      ========================= */}
 
       <section className="lista-section">
 
@@ -451,9 +431,34 @@ function App() {
             por mais de uma pessoa.
           </p>
 
+          {/* AVISO DE CORES */}
+
+          <div className="aviso-cores">
+
+            <div className="aviso-cores-titulo">
+              ♡ Cores de preferência
+            </div>
+
+            <p>
+              Para os produtos da nossa lista,
+              nossas cores preferidas são:
+              <strong>
+                {" "}inox, preto, branco e azul-marinho.
+              </strong>
+            </p>
+
+            <span>
+              Caso o item tenha outras opções de cores,
+              pedimos, se possível, que escolha uma dessas.
+            </span>
+
+          </div>
+
         </div>
 
-        {/* CARREGANDO */}
+        {/* =========================
+            CARREGANDO
+        ========================= */}
 
         {carregando ? (
 
@@ -546,9 +551,9 @@ function App() {
 
         )}
 
-        {/* ==============================
+        {/* =========================
             CONFIRMAÇÃO FINAL
-        ============================== */}
+        ========================= */}
 
         <div className="confirmacao-final">
 
@@ -601,9 +606,9 @@ function App() {
 
       </section>
 
-      {/* ==============================
+      {/* =========================
           FINAL
-      ============================== */}
+      ========================= */}
 
       <section className="final">
 
