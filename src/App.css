@@ -1,6 +1,6 @@
-/* =========================
+/* ================================
    CONFIGURAÇÕES GERAIS
-========================= */
+================================ */
 
 * {
   box-sizing: border-box;
@@ -27,6 +27,11 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+
+/* ================================
+   PÁGINA
+================================ */
+
 .pagina {
   min-height: 100vh;
   background: #061426;
@@ -34,9 +39,9 @@ button {
 }
 
 
-/* =========================
+/* ================================
    HERO
-========================= */
+================================ */
 
 .hero {
   min-height: 650px;
@@ -53,6 +58,7 @@ button {
 .foto-wrapper {
   width: 190px;
   height: 190px;
+
   margin-bottom: 25px;
 
   border-radius: 50%;
@@ -81,6 +87,7 @@ button {
 
   font-size: clamp(40px, 7vw, 68px);
   font-weight: 400;
+
   letter-spacing: 1px;
 }
 
@@ -116,20 +123,20 @@ button {
 }
 
 
-/* =========================
+/* ================================
    INFORMAÇÕES DO EVENTO
-========================= */
+================================ */
 
 .informacoes-evento {
   width: min(1100px, calc(100% - 40px));
 
   margin: 0 auto;
-
   padding: 35px 25px;
 
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   gap: 25px;
 
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -170,6 +177,7 @@ button {
   margin-bottom: 5px;
 
   font-size: 14px;
+
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
@@ -193,9 +201,9 @@ button {
 }
 
 
-/* =========================
+/* ================================
    CONFIRMAÇÃO
-========================= */
+================================ */
 
 .confirmacao {
   width: min(700px, calc(100% - 40px));
@@ -232,6 +240,7 @@ button {
   margin: 0;
 
   font-size: clamp(30px, 5vw, 42px);
+
   font-weight: 400;
 }
 
@@ -287,9 +296,15 @@ button {
   cursor: not-allowed;
 }
 
+
+/* ================================
+   OPÇÕES DE PRESENÇA
+================================ */
+
 .opcoes {
   display: flex;
   flex-direction: column;
+
   gap: 12px;
 }
 
@@ -307,11 +322,13 @@ button {
   border-radius: 10px;
 
   background: transparent;
+
   color: rgba(255, 255, 255, 0.8);
 
   cursor: pointer;
 
   text-align: left;
+
   font-size: 15px;
 
   transition:
@@ -347,15 +364,16 @@ button {
   justify-content: center;
 
   border: 1px solid rgba(255, 255, 255, 0.35);
+
   border-radius: 50%;
 
   font-size: 13px;
 }
 
 
-/* =========================
+/* ================================
    LISTA DE PRESENTES
-========================= */
+================================ */
 
 .lista-section {
   padding: 85px 20px 100px;
@@ -385,9 +403,9 @@ button {
 }
 
 
-/* =========================
+/* ================================
    AVISO DE CORES
-========================= */
+================================ */
 
 .aviso-cores {
   max-width: 700px;
@@ -397,6 +415,7 @@ button {
   padding: 18px 22px;
 
   border: 1px solid rgba(255, 255, 255, 0.18);
+
   border-radius: 12px;
 
   background: rgba(255, 255, 255, 0.05);
@@ -438,9 +457,136 @@ button {
 }
 
 
-/* =========================
-   GRID DE PRESENTES
-========================= */
+/* ================================
+   BOTÃO VOLTAR CATEGORIAS
+================================ */
+
+.botao-voltar-categorias {
+  margin: 5px auto 20px;
+
+  padding: 10px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.botao-voltar-categorias:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(255, 255, 255, 0.35);
+
+  color: #ffffff;
+}
+
+
+/* ================================
+   CATEGORIAS
+================================ */
+
+.grid-categorias {
+  width: min(1000px, 100%);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+.card-categoria {
+  min-height: 190px;
+
+  padding: 30px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 14px;
+
+  background: #102943;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card-categoria:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(255, 255, 255, 0.3);
+
+  background: #143250;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.icone-categoria {
+  width: 60px;
+  height: 60px;
+
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+
+  font-size: 28px;
+
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.card-categoria h3 {
+  margin: 0 0 9px;
+
+  font-size: 20px;
+
+  font-weight: 400;
+}
+
+.card-categoria span {
+  font-size: 13px;
+
+  color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* ================================
+   PRESENTES
+================================ */
 
 .grid-presentes {
   width: min(1100px, 100%);
@@ -466,9 +612,11 @@ button {
   justify-content: center;
 
   border: 1px solid rgba(255, 255, 255, 0.1);
+
   border-radius: 14px;
 
   background: #102943;
+
   color: #ffffff;
 
   cursor: pointer;
@@ -523,6 +671,7 @@ button {
   justify-content: center;
 
   border: 1px solid rgba(255, 255, 255, 0.2);
+
   border-radius: 50%;
 
   font-size: 20px;
@@ -532,6 +681,7 @@ button {
   margin: 0 0 12px;
 
   font-size: 17px;
+
   font-weight: 400;
 
   line-height: 1.4;
@@ -569,9 +719,9 @@ button {
 }
 
 
-/* =========================
-   CONFIRMAÇÃO FINAL
-========================= */
+/* ================================
+   CONFIRMAÇÃO DO PRESENTE
+================================ */
 
 .confirmacao-final {
   max-width: 700px;
@@ -607,9 +757,11 @@ button {
   padding: 15px 25px;
 
   border: none;
+
   border-radius: 10px;
 
   background: #ffffff;
+
   color: #061426;
 
   font-size: 16px;
@@ -633,9 +785,195 @@ button {
 }
 
 
-/* =========================
+/* ================================
+   QUADRO DE AGRADECIMENTO
+================================ */
+
+.confirmacao-sucesso {
+  min-height: 100vh;
+
+  padding: 50px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #102943 0%,
+      #061426 65%
+    );
+}
+
+.quadro-sucesso {
+  width: min(620px, 100%);
+
+  padding: 55px 45px;
+
+  position: relative;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 20px;
+
+  background: rgba(16, 41, 67, 0.92);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.4);
+
+  text-align: center;
+
+  animation: aparecerSucesso 0.5s ease;
+}
+
+@keyframes aparecerSucesso {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.quadro-coracao {
+  margin-bottom: 12px;
+
+  font-size: 34px;
+
+  color: #ffffff;
+}
+
+.foto-sucesso {
+  width: 105px;
+  height: 105px;
+
+  margin: 0 auto 25px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  border: 3px solid rgba(255, 255, 255, 0.85);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.foto-sucesso img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.sucesso-pequeno {
+  margin: 0 0 12px;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  letter-spacing: 3px;
+
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.quadro-sucesso h1 {
+  margin: 0;
+
+  font-size: clamp(32px, 6vw, 46px);
+
+  font-weight: 400;
+}
+
+.linha-sucesso {
+  width: 60px;
+  height: 1px;
+
+  margin: 25px auto;
+
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mensagem-sucesso {
+  max-width: 480px;
+
+  margin: 0 auto 18px;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.deus-abencoe {
+  margin: 28px 0;
+
+  font-size: 22px;
+
+  font-style: italic;
+
+  color: #ffffff;
+}
+
+.assinatura-sucesso {
+  margin: 0;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.assinatura-sucesso strong {
+  color: #ffffff;
+
+  font-size: 16px;
+}
+
+.botao-voltar {
+  margin-top: 30px;
+
+  padding: 14px 25px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.botao-voltar:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ================================
    FINAL
-========================= */
+================================ */
 
 .final {
   padding: 100px 20px;
@@ -685,6 +1023,7 @@ button {
   margin: 0 0 20px;
 
   font-size: 16px;
+
   line-height: 1.7;
 
   color: rgba(255, 255, 255, 0.65);
@@ -692,17 +1031,23 @@ button {
 
 .final span {
   font-size: 15px;
+
   font-style: italic;
 
   color: rgba(255, 255, 255, 0.55);
 }
 
 
-/* =========================
+/* ================================
    TABLET
-========================= */
+================================ */
 
 @media (max-width: 900px) {
+
+  .grid-categorias {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
 
   .grid-presentes {
     grid-template-columns:
@@ -723,9 +1068,9 @@ button {
 }
 
 
-/* =========================
+/* ================================
    CELULAR
-========================= */
+================================ */
 
 @media (max-width: 600px) {
 
@@ -796,11 +1141,22 @@ button {
 
   .aviso-cores {
     padding: 16px;
+
     margin-top: 25px;
   }
 
   .aviso-cores p {
     font-size: 14px;
+  }
+
+  .grid-categorias {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+  .card-categoria {
+    min-height: 160px;
   }
 
   .grid-presentes {
@@ -813,6 +1169,22 @@ button {
     min-height: 160px;
   }
 
+  .quadro-sucesso {
+    padding: 40px 25px;
+  }
+
+  .quadro-sucesso h1 {
+    font-size: 32px;
+  }
+
+  .mensagem-sucesso {
+    font-size: 15px;
+  }
+
+  .deus-abencoe {
+    font-size: 20px;
+  }
+
   .final {
     padding: 80px 20px;
   }
@@ -823,9 +1195,9 @@ button {
 }
 
 
-/* =========================
+/* ================================
    CELULARES PEQUENOS
-========================= */
+================================ */
 
 @media (max-width: 380px) {
 
@@ -843,5 +1215,9 @@ button {
 
   .botao-presentes {
     width: 100%;
+  }
+
+  .quadro-sucesso {
+    padding: 35px 20px;
   }
 }
