@@ -1221,3 +1221,168 @@ button {
     padding: 35px 20px;
   }
 }
+
+/* =========================================================
+   AVISO DE QUE PODE ESCOLHER VÁRIOS PRESENTES
+========================================================= */
+
+.aviso-multiplos {
+  max-width: 700px;
+  margin: 20px auto 15px;
+  padding: 18px 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  text-align: center;
+}
+
+.aviso-multiplos-titulo {
+  margin-bottom: 8px;
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.aviso-multiplos p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.aviso-multiplos span {
+  display: block;
+
+  margin-top: 7px;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   RESUMO DOS PRESENTES SELECIONADOS
+========================================================= */
+
+.resumo-selecao {
+  width: min(800px, 100%);
+
+  margin: 35px auto 0;
+  padding: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  text-align: center;
+}
+
+.contador-selecionados {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+}
+
+.contador-selecionados span {
+  font-size: 20px;
+}
+
+.lista-selecionados {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 15px;
+}
+
+.item-selecionado {
+  padding: 8px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PRESENTE SELECIONADO
+========================================================= */
+
+.card-presente.selecionado {
+  border-color: rgba(255, 255, 255, 0.7);
+
+  background: #173b5d;
+
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.08),
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card-presente.selecionado .icone-presente {
+  background: #ffffff;
+
+  color: #061426;
+}
+
+.card-presente.selecionado .status {
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .aviso-multiplos {
+    padding: 16px;
+  }
+
+  .aviso-multiplos p {
+    font-size: 14px;
+  }
+
+  .aviso-multiplos span {
+    font-size: 12px;
+  }
+
+  .resumo-selecao {
+    padding: 18px 15px;
+  }
+
+  .contador-selecionados {
+    font-size: 15px;
+  }
+
+  .item-selecionado {
+    width: 100%;
+  }
+
+}
