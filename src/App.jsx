@@ -442,7 +442,7 @@ function App() {
             </strong>
 
             <span>
-              Rua Antônio Alves da Silva,
+              Rua Alcindo José Ferreira, nº 250,
               em frente à ADG Parada Modelo
             </span>
           </div>
