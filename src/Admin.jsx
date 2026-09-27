@@ -14,18 +14,18 @@ function Admin() {
 
   const [usuario, setUsuario] = useState(null);
 
-  // =========================================================
-  // VERIFICAR USUÁRIO
-  // =========================================================
-
   useEffect(() => {
     verificarUsuario();
   }, []);
 
   async function verificarUsuario() {
+    console.log("ADMIN: verificando usuário...");
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
+    console.log("ADMIN: usuário encontrado:", user);
 
     if (!user) {
       window.location.href = "/admin";
@@ -34,20 +34,20 @@ function Admin() {
 
     setUsuario(user);
 
-    carregarDados();
+    await carregarDados();
   }
 
-  // =========================================================
-  // CARREGAR DADOS
-  // =========================================================
-
   async function carregarDados() {
+    console.log("=================================");
+    console.log("ADMIN: CARREGANDO DADOS");
+    console.log("=================================");
+
     setCarregando(true);
 
     try {
-      // =====================================================
-      // CARREGAR CONVIDADOS
-      // =====================================================
+      // ==========================================
+      // 1. CARREGAR CONVIDADOS
+      // ==========================================
 
       const {
         data: convidadosData,
@@ -61,7 +61,7 @@ function Admin() {
 
       if (convidadosError) {
         console.error(
-          "Erro ao carregar convidados:",
+          "ADMIN: erro ao carregar convidados:",
           convidadosError
         );
 
@@ -73,9 +73,14 @@ function Admin() {
         return;
       }
 
-      // =====================================================
-      // CARREGAR PRESENTES
-      // =====================================================
+      console.log(
+        "ADMIN: convidados encontrados:",
+        convidadosData
+      );
+
+      // ==========================================
+      // 2. CARREGAR PRESENTES
+      // ==========================================
 
       const {
         data: presentesData,
@@ -89,7 +94,7 @@ function Admin() {
 
       if (presentesError) {
         console.error(
-          "Erro ao carregar presentes:",
+          "ADMIN: erro ao carregar presentes:",
           presentesError
         );
 
@@ -101,9 +106,14 @@ function Admin() {
         return;
       }
 
-      // =====================================================
-      // CARREGAR RELAÇÃO DE MÚLTIPLOS PRESENTES
-      // =====================================================
+      console.log(
+        "ADMIN: presentes encontrados:",
+        presentesData
+      );
+
+      // ==========================================
+      // 3. CARREGAR RELAÇÃO GUEST_GIFTS
+      // ==========================================
 
       const {
         data: guestGiftsData,
@@ -114,7 +124,7 @@ function Admin() {
 
       if (guestGiftsError) {
         console.error(
-          "Erro ao carregar presentes dos convidados:",
+          "ADMIN: erro ao carregar guest_gifts:",
           guestGiftsError
         );
 
@@ -126,18 +136,33 @@ function Admin() {
         return;
       }
 
-      // =====================================================
-      // RELACIONAR CONVIDADO + VÁRIOS PRESENTES
-      // =====================================================
+      console.log(
+        "ADMIN: registros guest_gifts encontrados:",
+        guestGiftsData
+      );
+
+      // ==========================================
+      // 4. MONTAR OS PRESENTES DE CADA CONVIDADO
+      // ==========================================
 
       const convidadosComPresentes =
         (convidadosData || []).map(
           (convidado) => {
-            // -------------------------------------------------
-            // NOVO SISTEMA:
-            // vários presentes através de guest_gifts
-            // -------------------------------------------------
+            console.log(
+              "---------------------------------"
+            );
 
+            console.log(
+              "ADMIN: processando convidado:",
+              convidado.name
+            );
+
+            console.log(
+              "ADMIN: ID do convidado:",
+              convidado.id
+            );
+
+            // Busca todas as relações desse convidado
             const relacoes =
               (guestGiftsData || []).filter(
                 (relacao) =>
@@ -145,25 +170,39 @@ function Admin() {
                   Number(convidado.id)
               );
 
+            console.log(
+              "ADMIN: relações encontradas:",
+              relacoes
+            );
+
+            // Transforma os gift_id em objetos completos
             const presentesDoConvidado =
               relacoes
                 .map((relacao) => {
-                  return (
-                    presentesData || []
-                  ).find(
-                    (presente) =>
-                      Number(presente.id) ===
-                      Number(relacao.gift_id)
+                  const presente =
+                    (presentesData || []).find(
+                      (item) =>
+                        Number(item.id) ===
+                        Number(relacao.gift_id)
+                    );
+
+                  console.log(
+                    "ADMIN: procurando presente:",
+                    relacao.gift_id,
+                    "=>",
+                    presente
                   );
+
+                  return presente;
                 })
                 .filter(Boolean);
 
-            // -------------------------------------------------
-            // COMPATIBILIDADE COM O SISTEMA ANTIGO
-            // -------------------------------------------------
-            // Caso exista um convidado antigo que tenha
-            // apenas guests.gift_id preenchido.
+            console.log(
+              "ADMIN: presentes do convidado:",
+              presentesDoConvidado
+            );
 
+            // Compatibilidade com registros antigos
             if (
               presentesDoConvidado.length === 0 &&
               convidado.gift_id
@@ -185,17 +224,31 @@ function Admin() {
             return {
               ...convidado,
 
-              // Array com todos os presentes
-              presentes: presentesDoConvidado,
+              presentes:
+                presentesDoConvidado,
 
-              // Mantemos "presente" para compatibilidade
-              // com outras partes do sistema.
               presente:
                 presentesDoConvidado[0] ||
                 null,
             };
           }
         );
+
+      console.log(
+        "================================="
+      );
+
+      console.log(
+        "ADMIN: CONVIDADOS COM PRESENTES:"
+      );
+
+      console.log(
+        convidadosComPresentes
+      );
+
+      console.log(
+        "================================="
+      );
 
       setConvidados(
         convidadosComPresentes
@@ -204,25 +257,19 @@ function Admin() {
       setPresentes(
         presentesData || []
       );
-
     } catch (error) {
       console.error(
-        "Erro inesperado:",
+        "ADMIN: erro inesperado:",
         error
       );
 
       alert(
         "Ocorreu um erro ao carregar o painel."
       );
-
     } finally {
       setCarregando(false);
     }
   }
-
-  // =========================================================
-  // REMOVER CONVIDADO
-  // =========================================================
 
   async function removerConvidado(id) {
     const convidado =
@@ -264,7 +311,7 @@ function Admin() {
 
       if (error) {
         console.error(
-          "Erro ao remover convidado:",
+          "ADMIN: erro ao remover convidado:",
           error
         );
 
@@ -281,25 +328,19 @@ function Admin() {
       );
 
       await carregarDados();
-
     } catch (error) {
       console.error(
-        "Erro inesperado ao remover:",
+        "ADMIN: erro inesperado ao remover:",
         error
       );
 
       alert(
         "Ocorreu um erro ao remover o convidado."
       );
-
     } finally {
       setCarregando(false);
     }
   }
-
-  // =========================================================
-  // EDITAR NOME
-  // =========================================================
 
   function iniciarEdicao(convidado) {
     setEditandoId(convidado.id);
@@ -327,7 +368,7 @@ function Admin() {
 
       if (error) {
         console.error(
-          "Erro ao editar nome:",
+          "ADMIN: erro ao editar nome:",
           error
         );
 
@@ -346,10 +387,9 @@ function Admin() {
       cancelarEdicao();
 
       await carregarDados();
-
     } catch (error) {
       console.error(
-        "Erro inesperado ao editar:",
+        "ADMIN: erro inesperado ao editar:",
         error
       );
 
@@ -358,10 +398,6 @@ function Admin() {
       );
     }
   }
-
-  // =========================================================
-  // SAIR
-  // =========================================================
 
   async function sair() {
     const confirmar = window.confirm(
@@ -377,10 +413,6 @@ function Admin() {
     window.location.href = "/admin";
   }
 
-  // =========================================================
-  // FILTRO
-  // =========================================================
-
   const convidadosFiltrados =
     convidados.filter((convidado) => {
       const texto =
@@ -394,8 +426,6 @@ function Admin() {
         convidado.name
           ?.toLowerCase() || "";
 
-      // Junta todos os presentes do convidado
-      // para permitir pesquisar qualquer um deles.
       const nomesPresentes =
         (convidado.presentes || [])
           .map(
@@ -410,10 +440,6 @@ function Admin() {
         nomesPresentes.includes(texto)
       );
     });
-
-  // =========================================================
-  // RESUMO
-  // =========================================================
 
   const total =
     convidados.length;
@@ -430,10 +456,6 @@ function Admin() {
         convidado.attendance === false
     ).length;
 
-  // =========================================================
-  // FORMATAR DATA
-  // =========================================================
-
   function formatarData(data) {
     if (!data) {
       return "-";
@@ -448,10 +470,6 @@ function Admin() {
     );
   }
 
-  // =========================================================
-  // ESTOQUE ATUAL
-  // =========================================================
-
   function quantidadeDisponivel(
     presente
   ) {
@@ -462,10 +480,6 @@ function Admin() {
       )
     );
   }
-
-  // =========================================================
-  // QUANTIDADE RESERVADA
-  // =========================================================
 
   function quantidadeReservada(
     presente
@@ -489,10 +503,6 @@ function Admin() {
     );
   }
 
-  // =========================================================
-  // VERIFICAR USUÁRIO
-  // =========================================================
-
   if (!usuario) {
     return (
       <div className="pagina-admin">
@@ -503,21 +513,10 @@ function Admin() {
     );
   }
 
-  // =========================================================
-  // TELA DO ADMIN
-  // =========================================================
-
   return (
     <div className="pagina-admin">
-
-      {/* =====================================================
-          CABEÇALHO
-      ====================================================== */}
-
       <header className="admin-header">
-
         <div>
-
           <p className="admin-pequeno">
             Área exclusiva
           </p>
@@ -525,7 +524,6 @@ function Admin() {
           <h1>
             Gabriel & Karoline
           </h1>
-
         </div>
 
         <button
@@ -534,19 +532,11 @@ function Admin() {
         >
           Sair
         </button>
-
       </header>
 
       <main className="admin-conteudo">
-
-        {/* ===================================================
-            TÍTULO
-        ==================================================== */}
-
         <div className="admin-titulo">
-
           <div>
-
             <h2>
               Lista de convidados
             </h2>
@@ -555,7 +545,6 @@ function Admin() {
               Gerencie as confirmações e
               presentes escolhidos.
             </p>
-
           </div>
 
           <button
@@ -569,17 +558,10 @@ function Admin() {
               ? "Atualizando..."
               : "↻ Atualizar"}
           </button>
-
         </div>
 
-        {/* ===================================================
-            RESUMO
-        ==================================================== */}
-
         <div className="admin-resumo">
-
           <div className="resumo-card">
-
             <span>
               Total
             </span>
@@ -587,11 +569,9 @@ function Admin() {
             <strong>
               {total}
             </strong>
-
           </div>
 
           <div className="resumo-card">
-
             <span>
               Confirmados
             </span>
@@ -599,11 +579,9 @@ function Admin() {
             <strong>
               {confirmados}
             </strong>
-
           </div>
 
           <div className="resumo-card">
-
             <span>
               Não confirmados
             </span>
@@ -611,17 +589,10 @@ function Admin() {
             <strong>
               {naoConfirmados}
             </strong>
-
           </div>
-
         </div>
 
-        {/* ===================================================
-            PESQUISA
-        ==================================================== */}
-
         <div className="admin-filtros">
-
           <input
             type="text"
             placeholder="Pesquisar convidado ou presente..."
@@ -632,39 +603,23 @@ function Admin() {
               )
             }
           />
-
         </div>
 
-        {/* ===================================================
-            TABELA DE CONVIDADOS
-        ==================================================== */}
-
         <div className="tabela-container">
-
           {carregando ? (
-
             <div className="admin-carregando">
               Carregando convidados...
             </div>
-
           ) : convidadosFiltrados.length === 0 ? (
-
             <div className="admin-vazio">
-
               {busca
                 ? "Nenhum convidado encontrado."
                 : "Nenhum convidado cadastrado ainda."}
-
             </div>
-
           ) : (
-
             <table>
-
               <thead>
-
                 <tr>
-
                   <th>
                     Convidado
                   </th>
@@ -684,39 +639,26 @@ function Admin() {
                   <th>
                     Ações
                   </th>
-
                 </tr>
-
               </thead>
 
               <tbody>
-
                 {convidadosFiltrados.map(
                   (convidado) => {
-
                     const quantidadePresentes =
                       convidado.presentes
                         ?.length || 0;
 
                     return (
-
                       <tr
                         key={
                           convidado.id
                         }
                       >
-
-                        {/* =========================
-                            NOME
-                        ========================== */}
-
                         <td>
-
                           {editandoId ===
                           convidado.id ? (
-
                             <div className="editar-nome">
-
                               <input
                                 type="text"
                                 value={
@@ -753,54 +695,32 @@ function Admin() {
                               >
                                 Cancelar
                               </button>
-
                             </div>
-
                           ) : (
-
                             <strong>
                               {
                                 convidado.name
                               }
                             </strong>
-
                           )}
-
                         </td>
 
-                        {/* =========================
-                            PRESENÇA
-                        ========================== */}
-
                         <td>
-
                           {convidado.attendance ? (
-
                             <span className="status-confirmado">
                               ✓ Confirmado
                             </span>
-
                           ) : (
-
                             <span className="status-nao">
                               ✕ Não comparecerá
                             </span>
-
                           )}
-
                         </td>
 
-                        {/* =========================
-                            PRESENTES
-                        ========================== */}
-
                         <td>
-
                           {quantidadePresentes >
                           0 ? (
-
                             <div className="presente-admin">
-
                               <div
                                 style={{
                                   display:
@@ -811,24 +731,15 @@ function Admin() {
                                     "6px",
                                 }}
                               >
-
-                                <strong
-                                  style={{
-                                    display:
-                                      "block",
-                                  }}
-                                >
-
+                                <strong>
                                   🎁{" "}
                                   {
                                     quantidadePresentes
                                   }{" "}
-
                                   {quantidadePresentes ===
                                   1
                                     ? "presente selecionado"
                                     : "presentes selecionados"}
-
                                 </strong>
 
                                 <div
@@ -841,12 +752,10 @@ function Admin() {
                                       "3px",
                                   }}
                                 >
-
                                   {convidado.presentes.map(
                                     (
                                       presente
                                     ) => (
-
                                       <span
                                         key={
                                           presente.id
@@ -857,49 +766,28 @@ function Admin() {
                                           presente.name
                                         }
                                       </span>
-
                                     )
                                   )}
-
                                 </div>
-
                               </div>
-
                             </div>
-
                           ) : (
-
                             <span className="sem-presente">
                               Nenhum presente
                             </span>
-
                           )}
-
                         </td>
 
-                        {/* =========================
-                            DATA
-                        ========================== */}
-
                         <td>
-
                           {formatarData(
                             convidado.created_at
                           )}
-
                         </td>
 
-                        {/* =========================
-                            AÇÕES
-                        ========================== */}
-
                         <td>
-
                           <div className="acoes">
-
                             {editandoId !==
                               convidado.id && (
-
                               <button
                                 className="botao-editar"
                                 onClick={() =>
@@ -910,7 +798,6 @@ function Admin() {
                               >
                                 Editar
                               </button>
-
                             )}
 
                             <button
@@ -926,35 +813,20 @@ function Admin() {
                             >
                               Remover
                             </button>
-
                           </div>
-
                         </td>
-
                       </tr>
-
                     );
                   }
                 )}
-
               </tbody>
-
             </table>
-
           )}
-
         </div>
 
-        {/* ===================================================
-            ESTOQUE DE PRESENTES
-        ==================================================== */}
-
         <section className="estoque-admin">
-
           <div className="admin-titulo">
-
             <div>
-
               <h2>
                 Estoque de presentes
               </h2>
@@ -963,27 +835,18 @@ function Admin() {
                 Acompanhe as unidades disponíveis
                 de cada presente.
               </p>
-
             </div>
-
           </div>
 
           <div className="tabela-container">
-
             {presentes.length === 0 ? (
-
               <div className="admin-vazio">
                 Nenhum presente cadastrado.
               </div>
-
             ) : (
-
               <table>
-
                 <thead>
-
                   <tr>
-
                     <th>
                       Presente
                     </th>
@@ -999,16 +862,12 @@ function Admin() {
                     <th>
                       Disponíveis
                     </th>
-
                   </tr>
-
                 </thead>
 
                 <tbody>
-
                   {presentes.map(
                     (presente) => {
-
                       const estoqueInicial =
                         Number(
                           presente.initial_stock ??
@@ -1027,19 +886,13 @@ function Admin() {
                         );
 
                       return (
-
                         <tr
                           key={
                             presente.id
                           }
                         >
-
-                          {/* PRESENTE */}
-
                           <td>
-
                             <div className="presente-admin">
-
                               <span>
                                 ♡
                               </span>
@@ -1047,12 +900,8 @@ function Admin() {
                               {
                                 presente.name
                               }
-
                             </div>
-
                           </td>
-
-                          {/* ESTOQUE TOTAL */}
 
                           <td>
                             {
@@ -1060,64 +909,40 @@ function Admin() {
                             }
                           </td>
 
-                          {/* RESERVADOS */}
-
                           <td>
                             {
                               reservados
                             }
                           </td>
 
-                          {/* DISPONÍVEIS */}
-
                           <td>
-
                             {disponiveis ===
                             0 ? (
-
                               <span className="status-nao">
                                 ✕ ESGOTADO
                               </span>
-
                             ) : (
-
                               <span className="status-confirmado">
-
                                 {
                                   disponiveis
                                 }{" "}
-
-                                {
-                                  disponiveis ===
-                                  1
-                                    ? "disponível"
-                                    : "disponíveis"
-                                }
-
+                                {disponiveis ===
+                                1
+                                  ? "disponível"
+                                  : "disponíveis"}
                               </span>
-
                             )}
-
                           </td>
-
                         </tr>
-
                       );
                     }
                   )}
-
                 </tbody>
-
               </table>
-
             )}
-
           </div>
-
         </section>
-
       </main>
-
     </div>
   );
 }
