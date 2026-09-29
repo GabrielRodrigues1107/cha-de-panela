@@ -32,6 +32,7 @@ function App() {
     const { data, error } = await supabase
       .from("gifts")
       .select("*")
+      .eq("ativo", true)
       .order("id", { ascending: true });
 
     if (error) {
